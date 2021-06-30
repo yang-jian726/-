@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="Vue 生命周期" />
+    <meta charset="utf-8">
+    <title> Vue 生命周期</title>
+    <!--引入外部vue框架-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+<div id="app">
+    <p>{{name}}</p>
+    <ul>
+        <li v-for="s in students">
+            {{ s }}
+        </li>
+    </ul>
+</div>
+
+<script>
+    function getData() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve({ name: 'valley' })
+            }, 0)
+        })
+    }
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            name: 'nanjing',
+            students: ['a','b','c']
+        },
+        beforeCreate() {
+            console.log('---beforeCreated---')
+            console.log(this.$el)
+            console.log(this.name)
+            //this.name = 'valley'
+        },
+        created() {
+            console.log('---created---')
+            console.log(this.students)
+            console.log(this.name)
+            this.students[2] = 'cc'
+
+
+            this.$nextTick(()=>{
+                console.log('hello')
+                document.querySelectorAll('#app li')[2].innerText = 'hello'
+                console.log(document.querySelectorAll('#app li')[2].innerText)
+                console.log(this.name)
+                // console.log(s)
+            })
+
+        },
+        beforeMount() {
+            console.log('---beforeMount---')
+            console.log(this.$el.innerHTML)
+            console.log(this.students)
+            console.log(this.name)
+        },
+        mounted() {
+            console.log('---mounted---')
+            console.log(this.$el.innerHTML)
+            console.log(this.name)
+            console.log(this.students)
+            console.log('test....')
+            // console.log(document.querySelectorAll('#app li')[2].innerText)
+        },
+        beforeUpdate(a, b) {
+            // this.name = 'valley'
+            console.log('---beforeUpdated---')
+            console.log(this.$el.innerHTML)
+            console.log(this.name)
+            console.log(a, b)
+        },
+        updated() {
+            // this.name = 'valley'
+            console.log('---updated---')
+            console.log(this.$el.innerHTML)
+            console.log(this.name)
+        },
+        beforeDestroy() {
+            console.log('---beforeDestory---')
+            console.log(this.$el.innerHTML)
+            console.log(this.name)
+        },
+        destroyed() {
+            console.log('---destoryed---')
+            console.log(this.$el.innerHTML)
+            console.log(this.name)
+        }
+    })
+
+
+
+</script>
+</body>
+</html>
